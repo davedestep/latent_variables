@@ -1,0 +1,70 @@
+---
+title: "hw2"
+author: "David DeStephano"
+date: "February 7, 2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(psych)
+library(GPArotation)
+```
+
+```{r}
+hw2<-read_csv("HW2dat.csv")  
+
+```
+
+
+###write descriptive stats to screen
+```{r}
+summary(hw2)
+```
+
+
+###adds the data so variable names can be used without pre-specificaiton of dataname
+```{r}
+attach(hw2)
+```
+
+###create an object with just the 5 variables we want to analyze
+```{r}
+usevars<-cbind(C1,C2,C3,C4,C5)
+```
+
+
+###Here we use polychoric correlation and do parallel analysis of eigenvalues
+```{r}
+geneticparallel<-fa.parallel.poly(usevars)
+str(geneticparallel)
+geneticparallel$pc.values
+geneticparallel$pc.sim$mean
+```
+
+
+###Here we use Pearson correlation (note, poly is dropped from function name)
+```{r}
+geneticparallel.pearson<-fa.parallel(usevars)
+str(geneticparallel.pearson)
+geneticparallel.pearson$pc.values
+geneticparallel.pearson$pc.sim$mean
+```
+
+##################### Cronbach's alpha ##############
+```{r}
+usevars<-cbind(C1,C2,C3,C4_R,C5_R) #C4 and C5 are in opposite directions as other vars, so using reversed vars.
+geneticalpha<-alpha(usevars)
+t<-geneticalpha
+t
+```
+
+
+
+
+
+
+```{r}
+usevars<-cbind(C1,C2,C3,C4,C5, C4_R, C5_R)
+```
+
